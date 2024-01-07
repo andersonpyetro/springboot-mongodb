@@ -7,10 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.apyetro.projetomongo.domain.User;
+import com.apyetro.projetomongo.dto.UserDTO;
 import com.apyetro.projetomongo.repository.UserRepository;
 import com.apyetro.projetomongo.services.exception.ObjectNotFoundException;
-
-import org.springframework.data.repository.CrudRepository;
 
 @Service
 public class UserService {
@@ -27,5 +26,17 @@ public class UserService {
 		Optional<User> obj = repo.findById(id);
 		return obj.orElseThrow(() -> new ObjectNotFoundException("Objeto não encontrado"));
 		}
-
+	
+	public User insert(User obj) {
+		return repo.insert(obj);
+	}
+	
+	public void delete(String id) {
+		findById(id);
+		repo.delete(id);
+	}
+	
+	public User fromDTO(UserDTO objDto) {
+		return new User(objDto.getId(), objDto.getName(), objDto.getEmail());
+	}
 }
