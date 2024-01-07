@@ -1,12 +1,16 @@
 package com.apyetro.projetomongo.services;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.apyetro.projetomongo.domain.User;
 import com.apyetro.projetomongo.repository.UserRepository;
+import com.apyetro.projetomongo.services.exception.ObjectNotFoundException;
+
+import org.springframework.data.repository.CrudRepository;
 
 @Service
 public class UserService {
@@ -18,5 +22,10 @@ public class UserService {
 		
 		return repo.findAll();
 	}
+	
+	public User findById(String id) {
+		Optional<User> obj = repo.findById(id);
+		return obj.orElseThrow(() -> new ObjectNotFoundException("Objeto não encontrado"));
+		}
 
 }
